@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LossCalc — You're all set</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:   #111010;
+  --ink2:  #3a3a3a;
+  --muted: #888;
+  --rule:  #e2e0db;
+  --bg:    #f8f6f1;
+  --paper: #ffffff;
+  --red:   #c0392b;
+  --green: #166534;
+  --green-bg: #f0fdf4;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'DM Sans', sans-serif;
+  --mono:  'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 56px;
+  flex-shrink: 0;
+}
+.logo { font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--ink); }
+.logo em { color: var(--red); font-style: italic; }
+
+.page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 56px 64px;
+  max-width: 560px;
+  width: 100%;
+  text-align: center;
+}
+
+.check-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--green-bg);
+  border: 1px solid rgba(22,101,52,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
+}
+.check-icon {
+  width: 28px;
+  height: 28px;
+  stroke: var(--green);
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+
+.title {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--ink2);
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+.timeline {
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 24px;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.tl-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.tl-item:last-child { border-bottom: none; }
+
+.tl-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.tl-dot.done {
+  background: var(--green-bg);
+  border-color: rgba(22,101,52,0.2);
+  color: var(--green);
+}
+
+.tl-body { flex: 1; }
+.tl-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+.tl-sub { font-size: 12px; color: var(--muted); }
+
+.note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .15s;
+}
+.back-link:hover { color: var(--ink); }
+
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--paper);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.card { animation: fadeUp 0.5s ease both; }
+
+@media (max-width: 600px) {
+  nav { padding: 0 16px; }
+  .card { padding: 36px 24px; }
+  footer { padding: 16px; flex-direction: column; gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Loss<em>Calc</em></div>
+</nav>
+
+<div class="page">
+  <div class="card">
+    <div class="check-circle">
+      <svg class="check-icon" viewBox="0 0 24 24">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+
+    <div class="eyebrow">Payment confirmed</div>
+    <h1 class="title">Your audit is<br>on its way.</h1>
+    <p class="subtitle">
+      We've received your payment and your business audit is now being prepared.
+      Check your inbox — your report will arrive within <strong>48 hours</strong>.
+    </p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot done">✓</div>
+        <div class="tl-body">
+          <div class="tl-title">Payment received</div>
+          <div class="tl-sub">$249 · LossCalc AI Business Audit</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">2</div>
+        <div class="tl-body">
+          <div class="tl-title">AI analysis running</div>
+          <div class="tl-sub">Benchmarking your inputs against industry data</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">3</div>
+        <div class="tl-body">
+          <div class="tl-title">Report delivered to your inbox</div>
+          <div class="tl-sub">Within 48 hours · 4-page PDF</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="note">
+      Didn't receive a confirmation email? Check your spam folder.<br>
+      Questions? Email us at <strong>hello@losscalc.co</strong>
+    </p>
+
+    <a href="https://losscalc.co" class="back-link">← Back to losscalc.co</a>
+  </div>
+</div>
+
+<footer>
+  <span>Loss<em style="color:var(--red);font-style:italic">Calc</em> · AI Business Audit</span>
+  <span>losscalc.co</span>
+</footer>
+
+</body>
+</html>
