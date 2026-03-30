@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LossCalc — Get Your Audit Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:    #111010;
+  --ink2:   #3a3a3a;
+  --muted:  #888;
+  --rule:   #e2e0db;
+  --bg:     #f8f6f1;
+  --paper:  #ffffff;
+  --red:    #c0392b;
+  --serif:  'Playfair Display', Georgia, serif;
+  --sans:   'DM Sans', sans-serif;
+  --mono:   'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAV */
+nav {
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 56px;
+  flex-shrink: 0;
+}
+.logo { font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--ink); }
+.logo em { color: var(--red); font-style: italic; }
+.nav-right { font-size: 12px; color: var(--muted); }
+
+/* LAYOUT */
+.page {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  flex: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 24px;
+  gap: 0;
+}
+
+/* FORM PANEL */
+.form-panel {
+  padding: 56px 64px 56px 0;
+  border-right: 1px solid var(--rule);
+}
+
+/* progress */
+.progress-wrap { margin-bottom: 40px; }
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.progress-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+.progress-pct   { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.progress-track { height: 2px; background: var(--rule); border-radius: 2px; }
+.progress-fill  { height: 100%; background: var(--ink); border-radius: 2px; transition: width 0.4s ease; }
+
+/* question */
+.q-wrap { min-height: 360px; display: flex; flex-direction: column; }
+.q-eyebrow { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.q-text {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.q-sub { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 28px; font-weight: 300; }
+
+/* tiles */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.tile {
+  padding: 14px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--paper);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink2);
+  transition: border-color .15s, background .15s, color .15s;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.35;
+  font-family: var(--sans);
+}
+.tile:hover { border-color: var(--ink); }
+.tile.sel { border-color: var(--ink); background: var(--ink); color: #fff; }
+.tile .icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+.tile .tile-sub { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.tile.sel .tile-sub { color: rgba(255,255,255,0.55); }
+
+/* slider (kept for numeric fields only) */
+.sl-val-display {
+  font-family: var(--mono);
+  font-size: 44px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.sl-val-display .sl-unit { font-size: 22px; color: var(--muted); }
+input[type=range] { width: 100%; accent-color: var(--ink); margin-bottom: 6px; }
+.sl-hints { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); font-family: var(--mono); }
+
+/* text input */
+.text-input {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--rule);
+  padding: 10px 0;
+  outline: none;
+  transition: border-color .2s;
+}
+.text-input:focus { border-bottom-color: var(--ink); }
+.text-input::placeholder { color: var(--rule); }
+
+/* nav buttons */
+.btn-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 32px;
+}
+.btn-back {
+  font-size: 13px; color: var(--muted);
+  background: none; border: none; cursor: pointer;
+  font-family: var(--sans);
+  display: flex; align-items: center; gap: 5px;
+  transition: color .15s;
+}
+.btn-back:hover { color: var(--ink); }
+.btn-next {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ink); color: #fff;
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  padding: 13px 28px; border-radius: 2px; border: none; cursor: pointer;
+  transition: background .15s;
+}
+.btn-next:hover { background: #2a2a2a; }
+.btn-next:disabled { opacity: 0.35; cursor: not-allowed; }
+.skip-link {
+  font-size: 12px; color: var(--muted);
+  background: none; border: none; cursor: pointer;
+  font-family: var(--sans); text-decoration: underline;
+}
+
+/* SIDEBAR */
+.sidebar {
+  padding: 56px 0 56px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.sidebar-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 20px;
+}
+.sc-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.sc-val { font-family: var(--serif); font-size: 36px; font-weight: 700; color: var(--red); line-height: 1; }
+.sc-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.sc-body { font-size: 12px; color: var(--ink2); line-height: 1.6; font-weight: 300; }
+
+.leak-item { margin-bottom: 12px; }
+.leak-item:last-child { margin-bottom: 0; }
+.leak-top { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+.leak-name { color: var(--ink2); }
+.leak-amt  { font-family: var(--mono); color: var(--ink); font-weight: 500; }
+.bar-track { height: 3px; background: var(--rule); border-radius: 2px; }
+.bar-fill  { height: 100%; border-radius: 2px; transition: width .4s ease; }
+
+/* SUMMARY PAGE */
+.summary-wrap { }
+.sum-hero {
+  background: var(--ink);
+  color: #fff;
+  padding: 32px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+.sum-hero-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 8px; }
+.sum-hero-val { font-family: var(--serif); font-size: 52px; font-weight: 700; color: #c0392b; line-height: 1; margin-bottom: 4px; }
+.sum-hero-annual { font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.4); }
+.sum-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule); border-radius: 3px;
+  overflow: hidden; margin-bottom: 20px;
+}
+.sum-cell { background: var(--paper); padding: 14px 16px; }
+.sum-cell-key { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+.sum-cell-val { font-size: 14px; font-weight: 500; }
+.pay-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; background: var(--ink); color: #fff;
+  font-family: var(--sans); font-size: 15px; font-weight: 500;
+  padding: 18px 24px; border-radius: 2px; border: none; cursor: pointer;
+  transition: background .15s; margin-bottom: 10px;
+}
+.pay-btn:hover { background: #2a2a2a; }
+.pay-btn .pay-right { text-align: right; }
+.pay-btn .pay-price { font-family: var(--serif); font-size: 22px; font-weight: 700; }
+.pay-btn .pay-note  { font-size: 10px; color: rgba(255,255,255,0.45); }
+.pay-footer { font-size: 11px; color: var(--muted); text-align: center; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Loss<em>Calc</em></div>
+  <div class="nav-right">Business revenue audit · $249</div>
+</nav>
+
+<div class="page">
+  <!-- FORM -->
+  <div class="form-panel">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label" id="step-lbl">Step 1 of 12</span>
+        <span class="progress-pct" id="step-pct">8%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="prog" style="width:8%"></div></div>
+    </div>
+    <div class="q-wrap" id="q-area"></div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-card">
+      <div class="sc-label">Monthly revenue at risk</div>
+      <div class="sc-val" id="sb-total">—</div>
+      <div class="sc-sub" id="sb-annual"></div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sc-label">Where it's leaking</div>
+      <div class="leak-item">
+        <div class="leak-top"><span class="leak-name">Missed calls</span><span class="leak-amt" id="sb-l1">—</span></div>
+        <div class="bar-track"><div class="bar-fill" id="sb-b1" style="width:0%;background:#c0392b"></div></div>
+      </div>
+      <div class="leak-item">
+        <div class="leak-top"><span class="leak-name">Admin cost</span><span class="leak-amt" id="sb-l2">—</span></div>
+        <div class="bar-track"><div class="bar-fill" id="sb-b2" style="width:0%;background:#b45309"></div></div>
+      </div>
+      <div class="leak-item">
+        <div class="leak-top"><span class="leak-name">No follow-up</span><span class="leak-amt" id="sb-l3">—</span></div>
+        <div class="bar-track"><div class="bar-fill" id="sb-b3" style="width:0%;background:#d97706"></div></div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sc-label">What you get</div>
+      <div class="sc-body">
+        4-page PDF report with your exact loss breakdown, top 3 fixes ranked by ROI, and a 30-day implementation roadmap.<br><br>
+        Delivered to your inbox in <strong>48 hours</strong>.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ans = {};
+let step = 0;
+
+// ── Mapping qualitative answers → numbers for calc ──
+const MISSED_MAP  = { never:5, sometimes:20, often:40, always:65 };
+const TICKET_MAP  = { under200:150, s200_500:350, s500_2k:1200, s2k_5k:3500, over5k:8000 };
+const CONV_MAP    = { low:10, medium:25, high:45, very_high:65 };
+const STAFF_MAP   = { solo:1, small:3, medium:6, large:12 };
+const ADMIN_MAP   = { minimal:0.5, some:1.5, significant:3, overwhelming:5 };
+const RATE_MAP    = { under20:17, r20_35:27, r35_60:45, over60:80 };
+
+const BIZ_D = {
+  trades:     { missed:'often',      ticket:'s500_2k', conv:'medium',    staff:'small',  admin:'some',        rate:'r20_35' },
+  medbeauty:  { missed:'sometimes',  ticket:'under200',conv:'high',      staff:'small',  admin:'significant', rate:'under20' },
+  legal:      { missed:'sometimes',  ticket:'s2k_5k',  conv:'medium',    staff:'medium', admin:'significant', rate:'over60' },
+  realestate: { missed:'often',      ticket:'over5k',  conv:'low',       staff:'small',  admin:'some',        rate:'r35_60' },
+  retail:     { missed:'sometimes',  ticket:'under200',conv:'very_high', staff:'medium', admin:'minimal',     rate:'under20' },
+  agency:     { missed:'sometimes',  ticket:'s2k_5k',  conv:'medium',    staff:'small',  admin:'significant', rate:'r35_60' },
+  dental:     { missed:'sometimes',  ticket:'s500_2k', conv:'high',      staff:'small',  admin:'some',        rate:'r20_35' },
+  logistics:  { missed:'often',      ticket:'s2k_5k',  conv:'low',       staff:'medium', admin:'some',        rate:'r20_35' },
+};
+const BIZ_LABELS = {
+  trades:'Trades (HVAC / Plumbing / Roofing)', medbeauty:'Med spa / Salon / Clinic',
+  legal:'Legal / Accounting', realestate:'Real Estate / Property Mgmt',
+  retail:'Retail / Restaurant', agency:'Agency / Consulting',
+  dental:'Dental / Medical Practice', logistics:'Logistics / Trucking',
+};
+const LEADS_DEFAULT = { trades:12,medbeauty:18,legal:8,realestate:10,retail:25,agency:6,dental:14,logistics:8 };
+
+const STEPS = [
+  { id:'biz', eye:'Business type', skip:false,
+    q:'What type of business do you run?',
+    sub:'We\'ll use industry benchmarks to make your audit more accurate.',
+    type:'tiles',
+    choices:[
+      {v:'trades',    icon:'🔧', label:'Trades',          sub:'HVAC, Plumbing, Roofing'},
+      {v:'medbeauty', icon:'💆', label:'Med spa / Salon', sub:'Clinic, Beauty, Wellness'},
+      {v:'legal',     icon:'⚖️', label:'Legal / CPA',     sub:'Accounting, Advisory'},
+      {v:'realestate',icon:'🏠', label:'Real Estate',     sub:'Agency, Property Mgmt'},
+      {v:'retail',    icon:'🏪', label:'Retail / Food',   sub:'Restaurant, Store'},
+      {v:'agency',    icon:'📊', label:'Agency',          sub:'Marketing, Consulting'},
+      {v:'dental',    icon:'🦷', label:'Healthcare',      sub:'Dental, Medical Practice'},
+      {v:'logistics', icon:'🚛', label:'Logistics',       sub:'Trucking, Delivery'},
+    ]
+  },
+  { id:'name', eye:'Business name', skip:true,
+    q:'What\'s the name of your business?',
+    sub:'Goes on the cover of your report.',
+    type:'text', placeholder:'e.g. Acme Plumbing & Heating',
+  },
+  { id:'location', eye:'Location', skip:true,
+    q:'Where are you based?',
+    sub:'City and state — helps with local market context.',
+    type:'text', placeholder:'e.g. Chicago, IL',
+  },
+  { id:'leads', eye:'Inbound volume', skip:true,
+    q:'How many calls or inquiries do you get on a typical day?',
+    sub:'All channels — phone, form fills, walk-ins, DMs. Rough estimate is fine.',
+    type:'slider', min:1, max:60, step:1, unit:'', suffix:' per day',
+  },
+  { id:'missed', eye:'Missed leads', skip:false,
+    q:'How often do calls or messages go unanswered?',
+    sub:'Think after-hours, busy days, weekends — when nobody picks up.',
+    type:'tiles',
+    choices:[
+      {v:'never',     icon:'✅', label:'Rarely',         sub:'We answer almost everything'},
+      {v:'sometimes', icon:'🟡', label:'Sometimes',      sub:'A few slip through each week'},
+      {v:'often',     icon:'🔴', label:'Often',          sub:'Regularly miss calls / DMs'},
+      {v:'always',    icon:'🚨', label:'All the time',   sub:'After hours = nobody home'},
+    ]
+  },
+  { id:'ticket', eye:'Revenue per client', skip:false,
+    q:'What\'s the average value of a new client or job?',
+    sub:'First transaction or typical project — not lifetime value.',
+    type:'tiles',
+    choices:[
+      {v:'under200', icon:'💵', label:'Under $200',    sub:'Small ticket, high volume'},
+      {v:'s200_500', icon:'💵', label:'$200 – $500',   sub:''},
+      {v:'s500_2k',  icon:'💰', label:'$500 – $2,000', sub:''},
+      {v:'s2k_5k',   icon:'💰', label:'$2k – $5k',    sub:''},
+      {v:'over5k',   icon:'🏆', label:'$5k+',         sub:'High-value, fewer clients'},
+    ]
+  },
+  { id:'conv', eye:'Conversion rate', skip:false,
+    q:'Out of 10 people who reach you — how many become paying clients?',
+    sub:'Be honest. Most businesses convert less than they think.',
+    type:'tiles',
+    choices:[
+      {v:'low',       icon:'1️⃣', label:'1 – 2 out of 10',  sub:'Low — need more nurturing'},
+      {v:'medium',    icon:'3️⃣', label:'2 – 4 out of 10',  sub:'Average'},
+      {v:'high',      icon:'5️⃣', label:'4 – 6 out of 10',  sub:'Good'},
+      {v:'very_high', icon:'🔥', label:'6+ out of 10',     sub:'High-intent leads only'},
+    ]
+  },
+  { id:'staff', eye:'Team size', skip:true,
+    q:'How many people handle admin, scheduling, or customer comms?',
+    sub:'Anyone spending time on repetitive tasks — not just "admin" job titles.',
+    type:'tiles',
+    choices:[
+      {v:'solo',   icon:'👤', label:'Just me',      sub:'Solo / owner-operated'},
+      {v:'small',  icon:'👥', label:'2 – 4 people', sub:''},
+      {v:'medium', icon:'🏢', label:'5 – 10 people',sub:''},
+      {v:'large',  icon:'🏭', label:'10+ people',   sub:''},
+    ]
+  },
+  { id:'admin', eye:'Admin burden', skip:false,
+    q:'How much of your team\'s day goes to manual admin tasks?',
+    sub:'Scheduling calls, data entry, copy-pasting, sending status emails.',
+    type:'tiles',
+    choices:[
+      {v:'minimal',     icon:'⚡', label:'Minimal',      sub:'Under 1h per person/day'},
+      {v:'some',        icon:'🟡', label:'Some',         sub:'1 – 2h per person/day'},
+      {v:'significant', icon:'🔴', label:'Significant',  sub:'2 – 4h per person/day'},
+      {v:'overwhelming',icon:'🚨', label:'Too much',     sub:'4h+ — it\'s a real problem'},
+    ]
+  },
+  { id:'rate', eye:'Labor cost', skip:true,
+    q:'What\'s the approximate hourly wage for those people?',
+    sub:'Used to calculate the real cost of admin time.',
+    type:'tiles',
+    choices:[
+      {v:'under20', icon:'💵', label:'Under $20/hr',  sub:''},
+      {v:'r20_35',  icon:'💵', label:'$20 – $35/hr',  sub:''},
+      {v:'r35_60',  icon:'💰', label:'$35 – $60/hr',  sub:''},
+      {v:'over60',  icon:'🏆', label:'$60+/hr',       sub:'Professional / specialist'},
+    ]
+  },
+  { id:'pain', eye:'Main pain', skip:true,
+    q:'What\'s the one thing costing you the most right now?',
+    sub:'Pick whichever keeps you up at night.',
+    type:'tiles',
+    choices:[
+      {v:'calls',     icon:'📞', label:'Missing leads',     sub:'Calls go unanswered'},
+      {v:'admin',     icon:'📋', label:'Manual admin',      sub:'Too much paperwork'},
+      {v:'followup',  icon:'📨', label:'No follow-up',      sub:'Leads disappear'},
+      {v:'scheduling',icon:'📅', label:'Scheduling chaos',  sub:''},
+      {v:'reporting', icon:'📉', label:'No visibility',     sub:'Can\'t track what\'s working'},
+      {v:'all',       icon:'🔥', label:'All of the above',  sub:''},
+    ]
+  },
+  { id:'email', eye:'Your email', skip:false,
+    q:'Where should we deliver your audit report?',
+    sub:'You\'ll receive a 4-page PDF within 48 hours of payment. No spam.',
+    type:'text', placeholder:'you@yourcompany.com', inputType:'email',
+  },
+];
+
+function getNum(key) {
+  const biz = ans.biz || 'trades';
+  const d = BIZ_D[biz];
+  switch(key) {
+    case 'leads':  return ans.leads ?? LEADS_DEFAULT[biz] ?? 10;
+    case 'missed': return MISSED_MAP[ans.missed ?? d.missed] ?? 30;
+    case 'ticket': return TICKET_MAP[ans.ticket ?? d.ticket] ?? 800;
+    case 'conv':   return CONV_MAP[ans.conv   ?? d.conv]   ?? 25;
+    case 'staff':  return STAFF_MAP[ans.staff ?? d.staff]  ?? 3;
+    case 'admin':  return ADMIN_MAP[ans.admin ?? d.admin]  ?? 2;
+    case 'rate':   return RATE_MAP[ans.rate   ?? d.rate]   ?? 28;
+  }
+}
+
+function calcLoss() {
+  const leads  = getNum('leads');
+  const missed = getNum('missed') / 100;
+  const ticket = getNum('ticket');
+  const conv   = getNum('conv') / 100;
+  const staff  = getNum('staff');
+  const hrs    = getNum('admin');
+  const rate   = getNum('rate');
+  const days   = 22;
+  const lostRev  = leads * missed * days * conv * ticket;
+  const routine  = staff * hrs * rate * days;
+  const followup = lostRev * 0.15;
+  return { lostRev, routine, followup, total: lostRev + routine + followup };
+}
+
+function fd(n) {
+  if (n >= 1000) return '$' + Math.round(n/100)/10 + 'k';
+  return '$' + Math.round(n);
+}
+function fdmo(n) { return fd(n) + '/mo'; }
+
+function updateSidebar() {
+  const L = calcLoss();
+  if (L.total > 0) {
+    document.getElementById('sb-total').textContent  = fd(L.total) + '/mo';
+    document.getElementById('sb-annual').textContent = '= ' + fd(L.total*12) + ' / year';
+    document.getElementById('sb-l1').textContent = fdmo(L.lostRev);
+    document.getElementById('sb-l2').textContent = fdmo(L.routine);
+    document.getElementById('sb-l3').textContent = fdmo(L.followup);
+    const mx = Math.max(L.lostRev, L.routine, L.followup) || 1;
+    document.getElementById('sb-b1').style.width = Math.round(L.lostRev/mx*100)+'%';
+    document.getElementById('sb-b2').style.width = Math.round(L.routine/mx*100)+'%';
+    document.getElementById('sb-b3').style.width = Math.round(L.followup/mx*100)+'%';
+  }
+}
+
+function render() {
+  const total = STEPS.length;
+  const pct   = Math.round(((step+1)/total)*100);
+  document.getElementById('prog').style.width  = pct+'%';
+  document.getElementById('step-lbl').textContent = `Step ${step+1} of ${total}`;
+  document.getElementById('step-pct').textContent = pct+'%';
+
+  const s = STEPS[step];
+  let html = `<div class="q-eyebrow">${s.eye}</div>
+    <div class="q-text">${s.q}</div>
+    <div class="q-sub">${s.sub}</div>`;
+
+  if (s.type === 'tiles') {
+    html += `<div class="tiles" id="tiles-wrap">`;
+    s.choices.forEach(c => {
+      const sel = ans[s.id] === c.v ? ' sel' : '';
+      html += `<button class="tile${sel}" data-val="${c.v}" onclick="pickTile('${s.id}','${c.v}',this)">
+        <span class="icon">${c.icon}</span>
+        <span><span class="tile-label">${c.label}</span>${c.sub ? `<div class="tile-sub">${c.sub}</div>` : ''}</span>
+      </button>`;
+    });
+    html += `</div>`;
+
+  } else if (s.type === 'slider') {
+    const val = ans[s.id] ?? LEADS_DEFAULT[ans.biz || 'trades'] ?? 10;
+    ans[s.id] = val;
+    html += `<div class="sl-val-display"><span id="sl-u">${s.unit}</span><span id="sl-n">${val}</span><span class="sl-unit">${s.suffix}</span></div>
+      <input type="range" min="${s.min}" max="${s.max}" step="${s.step}" value="${val}" oninput="updSl('${s.id}','${s.unit}','${s.suffix}',+this.value)">
+      <div class="sl-hints"><span>${s.unit}${s.min}${s.suffix}</span><span>${s.unit}${s.max}${s.suffix}</span></div>`;
+
+  } else if (s.type === 'text') {
+    html += `<input class="text-input" type="${s.inputType||'text'}" placeholder="${s.placeholder}" value="${ans[s.id]||''}"
+      oninput="ans['${s.id}']=this.value;updateSidebar()"
+      onkeydown="if(event.key==='Enter')next()">`;
+  }
+
+  // nav
+  const backVis  = step > 0 ? '' : 'visibility:hidden';
+  const skipVis  = s.skip ? '' : 'visibility:hidden';
+  html += `<div class="btn-row">
+    <button class="btn-back" style="${backVis}" onclick="back()">← Back</button>
+    <div style="display:flex;align-items:center;gap:16px">
+      <button class="skip-link" style="${skipVis}" onclick="next()">Skip</button>
+      <button class="btn-next" id="btn-next" onclick="next()" ${needsAnswer(s) && !ans[s.id] ? 'disabled' : ''}>
+        ${step < STEPS.length-1 ? 'Continue →' : 'Review my audit →'}
+      </button>
+    </div>
+  </div>`;
+
+  document.getElementById('q-area').innerHTML = html;
+  updateSidebar();
+}
+
+function needsAnswer(s) {
+  return !s.skip && s.type === 'tiles';
+}
+
+function pickTile(id, val, el) {
+  ans[id] = val;
+  el.closest('.tiles').querySelectorAll('.tile').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('btn-next') && (document.getElementById('btn-next').disabled = false);
+  updateSidebar();
+  // auto-advance on tile selection after brief pause
+  setTimeout(() => next(), 300);
+}
+
+function updSl(id, unit, suffix, val) {
+  ans[id] = val;
+  document.getElementById('sl-n').textContent = val;
+  updateSidebar();
+}
+
+function next() {
+  if (step < STEPS.length - 1) { step++; render(); }
+  else { showSummary(); }
+}
+function back() {
+  if (step > 0) { step--; render(); }
+}
+
+function showSummary() {
+  const L = calcLoss();
+  document.getElementById('prog').style.width = '100%';
+  document.getElementById('step-lbl').textContent = 'Complete';
+  document.getElementById('step-pct').textContent = '100%';
+
+  const biz = ans.biz || 'trades';
+  document.getElementById('q-area').innerHTML = `
+    <div class="q-eyebrow">Your audit snapshot</div>
+    <div class="q-text" style="margin-bottom:20px">Here's what we found.</div>
+    <div class="sum-hero">
+      <div class="sum-hero-label">Monthly revenue at risk</div>
+      <div class="sum-hero-val">${fd(L.total)}</div>
+      <div class="sum-hero-annual">= ${fd(L.total*12)} / year</div>
+    </div>
+    <div class="sum-grid">
+      <div class="sum-cell"><div class="sum-cell-key">Business</div><div class="sum-cell-val">${BIZ_LABELS[biz]||biz}</div></div>
+      <div class="sum-cell"><div class="sum-cell-key">Name</div><div class="sum-cell-val">${ans.name||'—'}</div></div>
+      <div class="sum-cell"><div class="sum-cell-key">Location</div><div class="sum-cell-val">${ans.location||'—'}</div></div>
+      <div class="sum-cell"><div class="sum-cell-key">Email</div><div class="sum-cell-val">${ans.email||'—'}</div></div>
+      <div class="sum-cell"><div class="sum-cell-key">Missed call loss</div><div class="sum-cell-val" style="color:var(--red)">${fdmo(L.lostRev)}</div></div>
+      <div class="sum-cell"><div class="sum-cell-key">Admin cost</div><div class="sum-cell-val" style="color:var(--red)">${fdmo(L.routine)}</div></div>
+    </div>
+    <button class="pay-btn" onclick="alert('→ Stripe checkout $249')">
+      <span>Get my full audit report</span>
+      <span class="pay-right"><span class="pay-price">$249</span><div class="pay-note">48h delivery</div></span>
+    </button>
+    <div class="pay-footer">Secure checkout · 30-day money-back guarantee · No subscription</div>`;
+}
+
+render();
+</script>
+</body>
+</html>
