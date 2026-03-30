@@ -540,6 +540,68 @@ nav {
   font-weight: 300;
 }
 
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  nav {
+    padding: 0 16px;
+    height: 52px;
+    gap: 8px;
+  }
+  .nav-right { gap: 12px; }
+  .nav-link { display: none; }
+  .nav-btn { padding: 8px 14px; font-size: 12px; white-space: nowrap; }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 80px 20px 40px;
+    gap: 32px;
+  }
+  .hero-right { display: none; }
+  .hero-proof { gap: 20px; flex-wrap: wrap; }
+  .proof-num { font-size: 24px; }
+
+  .stat-band {
+    padding: 20px 16px;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+  }
+  .band-item {
+    padding: 16px 0;
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+  }
+  .band-item:last-child { border-bottom: none; }
+  .band-num { font-size: 28px; }
+
+  .section { padding: 60px 20px; }
+  .cta-wrap { padding: 0 20px 60px; }
+
+  .calc-shell { grid-template-columns: 1fr; }
+  .calc-in { padding: 24px 20px; border-right: none; border-bottom: 1px solid var(--rule); }
+  .calc-out { padding: 24px 20px; }
+  .out-total { font-size: 40px; }
+
+  .how-grid { grid-template-columns: 1fr 1fr; }
+
+  .industry-grid { grid-template-columns: 1fr 1fr; }
+
+  .cta-box {
+    grid-template-columns: 1fr;
+    padding: 36px 24px;
+    gap: 28px;
+  }
+  .price-block { min-width: unset; }
+
+  footer { padding: 20px 16px; flex-direction: column; gap: 8px; text-align: center; }
+}
+
+@media (max-width: 420px) {
+  .how-grid { grid-template-columns: 1fr; }
+  .industry-grid { grid-template-columns: 1fr; }
+  .hero-proof { gap: 16px; }
+}
+
 /* ── FOOTER ── */
 footer {
   border-top: 1px solid var(--rule);
