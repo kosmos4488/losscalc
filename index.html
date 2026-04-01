@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LossCalc — Find What Your Business Is Losing</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23111010'/><text x='4' y='24' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23c0392b'>L</text><text x='14' y='24' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23ffffff'>C</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -27,10 +27,8 @@
   --sans:  'DM Sans', sans-serif;
   --mono:  'DM Mono', monospace;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 body {
   background: var(--bg);
   color: var(--ink);
@@ -38,8 +36,6 @@ body {
   font-weight: 300;
   overflow-x: hidden;
 }
-
-/* ── UTILITY ── */
 .eyebrow {
   font-family: var(--mono);
   font-size: 10px;
@@ -49,7 +45,7 @@ body {
 }
 .rule { height: 1px; background: var(--rule); }
 
-/* ── NAV ── */
+/* NAV */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: rgba(248,246,241,0.94);
@@ -64,33 +60,26 @@ nav {
   font-weight: 700;
   color: var(--ink);
   letter-spacing: -0.01em;
+  text-decoration: none;
 }
 .logo span { color: var(--red); font-style: italic; }
 .nav-right { display: flex; align-items: center; gap: 32px; }
 .nav-link {
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--ink2);
-  text-decoration: none;
+  font-size: 13px; font-weight: 400;
+  color: var(--ink2); text-decoration: none;
   transition: color 0.15s;
 }
 .nav-link:hover { color: var(--ink); }
 .nav-btn {
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 500;
-  background: var(--ink);
-  color: #fff;
-  border: none;
-  padding: 9px 22px;
-  cursor: pointer;
-  border-radius: 2px;
-  text-decoration: none;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  background: var(--ink); color: #fff;
+  border: none; padding: 9px 22px; cursor: pointer;
+  border-radius: 2px; text-decoration: none;
   transition: background 0.15s;
 }
 .nav-btn:hover { background: #333; }
 
-/* ── HERO ── */
+/* HERO */
 .hero {
   padding: 140px 56px 80px;
   max-width: 1160px;
@@ -99,9 +88,6 @@ nav {
   gap: 80px;
   align-items: start;
 }
-
-.hero-left { }
-
 .hero-kicker {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 5px 12px;
@@ -115,11 +101,7 @@ nav {
   background: var(--red);
   animation: pulse 2s ease-in-out infinite;
 }
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 .hero-h1 {
   font-family: var(--serif);
   font-size: clamp(44px, 5.5vw, 76px);
@@ -127,500 +109,345 @@ nav {
   line-height: 1.0;
   letter-spacing: -0.02em;
   margin-bottom: 24px;
-  color: var(--ink);
 }
-.hero-h1 em {
-  font-style: italic;
-  color: var(--red);
-}
-
+.hero-h1 em { font-style: italic; color: var(--red); }
 .hero-sub {
-  font-size: 16px;
-  font-weight: 300;
-  line-height: 1.75;
-  color: var(--ink2);
-  max-width: 420px;
-  margin-bottom: 40px;
+  font-size: 16px; font-weight: 300; line-height: 1.75;
+  color: var(--ink2); max-width: 420px; margin-bottom: 40px;
 }
-
 .hero-proof {
-  display: flex;
-  gap: 32px;
+  display: flex; gap: 32px;
   padding: 24px 0;
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
   margin-bottom: 36px;
 }
-.proof-item { }
 .proof-num {
-  font-family: var(--serif);
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--ink);
-  line-height: 1;
-  margin-bottom: 4px;
+  font-family: var(--serif); font-size: 32px; font-weight: 700;
+  line-height: 1; margin-bottom: 4px;
 }
-.proof-lbl {
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 400;
-  letter-spacing: 0.03em;
-}
-
+.proof-lbl { font-size: 11px; color: var(--muted); font-weight: 400; letter-spacing: 0.03em; }
 .hero-cta-group { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .btn-primary {
   display: inline-flex; align-items: center; gap: 10px;
-  background: var(--ink);
-  color: #fff;
-  font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 14px 28px;
-  border-radius: 2px;
-  text-decoration: none;
-  border: none; cursor: pointer;
+  background: var(--ink); color: #fff;
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  padding: 14px 28px; border-radius: 2px;
+  text-decoration: none; border: none; cursor: pointer;
   transition: background 0.15s;
 }
 .btn-primary:hover { background: #2a2a2a; }
-.cta-note {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 300;
-}
+.cta-note { font-size: 12px; color: var(--muted); font-weight: 300; }
 
-/* ── HERO RIGHT — mini calculator preview ── */
-.hero-right {
-  padding-top: 20px;
-}
-
+/* HERO RIGHT */
 .mini-calc {
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  overflow: hidden;
+  background: var(--paper); border: 1px solid var(--rule);
+  border-radius: 4px; overflow: hidden;
 }
 .mini-calc-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--rule);
+  padding: 16px 20px; border-bottom: 1px solid var(--rule);
   display: flex; align-items: center; gap: 8px;
 }
 .mc-dot { width: 10px; height: 10px; border-radius: 50%; }
 .mini-calc-body { padding: 20px; }
 .mc-label { font-size: 10px; color: var(--muted); font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
-.mc-number {
-  font-family: var(--serif);
-  font-size: 48px;
-  font-weight: 700;
-  color: var(--red);
-  line-height: 1;
-  margin-bottom: 4px;
-}
+.mc-number { font-family: var(--serif); font-size: 48px; font-weight: 700; color: var(--red); line-height: 1; margin-bottom: 4px; }
 .mc-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
-.mc-bars { display: flex; flex-direction: column; gap: 10px; }
-.mc-bar-row { }
-.mc-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink2); margin-bottom: 4px; }
 .mc-bar-track { height: 4px; background: var(--bg2); border-radius: 2px; overflow: hidden; }
 .mc-bar-fill { height: 100%; border-radius: 2px; }
 .mc-footer {
-  padding: 14px 20px;
-  background: var(--bg2);
+  padding: 14px 20px; background: var(--bg2);
   border-top: 1px solid var(--rule);
-  font-size: 12px;
-  color: var(--ink2);
+  font-size: 12px; color: var(--ink2);
   display: flex; align-items: center; justify-content: space-between;
 }
 
-/* ── BAND ── */
+/* BAND */
 .stat-band {
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  background: var(--paper);
-  padding: 28px 56px;
-  display: flex;
-  gap: 0;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  background: var(--paper); padding: 28px 56px;
+  display: flex; gap: 0;
 }
 .band-item {
-  flex: 1;
-  padding: 0 40px;
+  flex: 1; padding: 0 40px;
   border-right: 1px solid var(--rule);
 }
 .band-item:first-child { padding-left: 0; }
 .band-item:last-child { border-right: none; }
-.band-num {
-  font-family: var(--serif);
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 4px;
-}
+.band-num { font-family: var(--serif); font-size: 36px; font-weight: 700; margin-bottom: 4px; }
 .band-lbl { font-size: 12px; color: var(--muted); }
 
-/* ── CALCULATOR SECTION ── */
-.section {
-  padding: 100px 56px;
-  max-width: 1160px;
-}
+/* SECTION */
+.section { padding: 100px 56px; max-width: 1160px; }
 .section-head { margin-bottom: 56px; }
 .section-h2 {
   font-family: var(--serif);
   font-size: clamp(34px, 4vw, 52px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  margin: 12px 0 16px;
+  font-weight: 700; letter-spacing: -0.02em;
+  line-height: 1.1; margin: 12px 0 16px;
 }
-.section-sub {
-  font-size: 15px;
-  color: var(--ink2);
-  max-width: 460px;
-  line-height: 1.7;
-}
+.section-sub { font-size: 15px; color: var(--ink2); max-width: 460px; line-height: 1.7; }
 
+/* CALC */
 .calc-shell {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  border: 1px solid var(--rule);
-  background: var(--paper);
-  border-radius: 4px;
-  overflow: hidden;
+  display: grid; grid-template-columns: 1.1fr 0.9fr;
+  border: 1px solid var(--rule); background: var(--paper);
+  border-radius: 4px; overflow: hidden;
 }
-
-/* inputs side */
-.calc-in {
-  padding: 40px;
-  border-right: 1px solid var(--rule);
-}
+.calc-in { padding: 40px; border-right: 1px solid var(--rule); }
 .biz-label { font-size: 11px; color: var(--muted); font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
 .biz-sel {
-  width: 100%;
-  font-family: var(--sans);
-  font-size: 14px;
-  color: var(--ink);
-  background: var(--bg);
-  border: 1px solid var(--rule);
-  padding: 9px 12px;
-  border-radius: 2px;
-  margin-bottom: 28px;
-  cursor: pointer;
-  outline: none;
-  appearance: none;
+  width: 100%; font-family: var(--sans); font-size: 14px;
+  color: var(--ink); background: var(--bg);
+  border: 1px solid var(--rule); padding: 9px 12px;
+  border-radius: 2px; margin-bottom: 28px;
+  cursor: pointer; outline: none; appearance: none;
 }
 .group-head {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 14px 0 10px;
-  border-top: 1px solid var(--rule);
-  margin-top: 4px;
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); padding: 14px 0 10px;
+  border-top: 1px solid var(--rule); margin-top: 4px;
 }
 .group-head:first-of-type { border-top: none; margin-top: 0; }
-.sl-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 8px 0;
-}
+.sl-row { display: flex; align-items: center; gap: 14px; padding: 8px 0; }
 .sl-name { font-size: 13px; color: var(--ink2); flex: 1; min-width: 0; font-weight: 300; }
-.sl-row input[type=range] {
-  flex: 1;
-  accent-color: var(--ink);
-  cursor: pointer;
-}
-.sl-val {
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--ink);
-  min-width: 60px;
-  text-align: right;
-}
-
-/* results side */
+.sl-row input[type=range] { flex: 1; accent-color: var(--ink); cursor: pointer; }
+.sl-val { font-family: var(--mono); font-size: 12px; font-weight: 500; min-width: 60px; text-align: right; }
 .calc-out {
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  background: var(--bg);
+  padding: 40px; display: flex; flex-direction: column; background: var(--bg);
 }
-.out-label {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 8px;
-}
+.out-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
 .out-total {
-  font-family: var(--serif);
-  font-size: clamp(42px, 4.5vw, 64px);
-  font-weight: 700;
-  color: var(--red);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  margin-bottom: 4px;
-  transition: all 0.3s ease;
+  font-family: var(--serif); font-size: clamp(42px, 4.5vw, 64px);
+  font-weight: 700; color: var(--red); line-height: 1;
+  letter-spacing: -0.02em; margin-bottom: 4px; transition: all 0.3s ease;
 }
-.out-annual {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 28px;
-}
+.out-annual { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 28px; }
 .out-rule { height: 1px; background: var(--rule); margin-bottom: 24px; }
 .leak-row { margin-bottom: 18px; }
-.leak-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 5px;
-}
+.leak-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
 .leak-name { font-size: 12px; color: var(--ink2); }
-.leak-amt { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--ink); }
+.leak-amt { font-family: var(--mono); font-size: 12px; font-weight: 500; }
 .bar-track { height: 3px; background: var(--rule); border-radius: 2px; }
 .bar-fill { height: 100%; border-radius: 2px; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
-
 .verdict {
-  margin-top: auto;
-  padding: 18px;
-  border: 1px solid var(--rule);
-  background: var(--paper);
-  border-radius: 2px;
+  margin-top: auto; padding: 18px;
+  border: 1px solid var(--rule); background: var(--paper); border-radius: 2px;
 }
-.verdict-head { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+.verdict-head { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
 .verdict-body { font-size: 12px; color: var(--ink2); line-height: 1.6; font-weight: 300; }
 .verdict-cta {
-  display: block;
-  margin-top: 16px;
-  text-align: center;
-  background: var(--ink);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 12px;
-  border-radius: 2px;
-  text-decoration: none;
-  transition: background 0.15s;
-  font-family: var(--sans);
+  display: block; margin-top: 16px; text-align: center;
+  background: var(--ink); color: #fff;
+  font-size: 13px; font-weight: 500; padding: 12px;
+  border-radius: 2px; text-decoration: none;
+  transition: background 0.15s; font-family: var(--sans);
 }
 .verdict-cta:hover { background: #333; }
 
-/* ── HOW IT WORKS ── */
+/* HOW */
 .how-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 48px;
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule); border-radius: 4px;
+  overflow: hidden; margin-top: 48px;
 }
-.how-card {
-  background: var(--paper);
-  padding: 32px 28px;
-  transition: background 0.15s;
-}
+.how-card { background: var(--paper); padding: 32px 28px; transition: background 0.15s; }
 .how-card:hover { background: var(--bg); }
-.how-n {
-  font-family: var(--serif);
-  font-size: 44px;
-  font-weight: 700;
-  color: var(--rule);
-  line-height: 1;
-  margin-bottom: 16px;
-}
+.how-n { font-family: var(--serif); font-size: 44px; font-weight: 700; color: var(--rule); line-height: 1; margin-bottom: 16px; }
 .how-title { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
 .how-body { font-size: 13px; color: var(--ink2); line-height: 1.65; font-weight: 300; }
 
-/* ── INDUSTRIES ── */
+/* INDUSTRIES */
 .industry-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 48px;
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule); border-radius: 4px;
+  overflow: hidden; margin-top: 48px;
 }
-.ind-card {
-  background: var(--paper);
-  padding: 28px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
+.ind-card { background: var(--paper); padding: 28px; cursor: pointer; transition: background 0.15s; }
 .ind-card:hover { background: var(--bg); }
 .ind-type { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
 .ind-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
 .ind-loss { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--red); }
 .ind-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-/* ── CTA SECTION ── */
-.cta-wrap {
-  padding: 0 56px 100px;
-  max-width: 1160px;
+/* FAQ */
+.faq-list { margin-top: 48px; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.faq-item { border-bottom: 1px solid var(--rule); background: var(--paper); }
+.faq-item:last-child { border-bottom: none; }
+.faq-q {
+  width: 100%; text-align: left;
+  padding: 22px 28px; background: none; border: none;
+  font-family: var(--sans); font-size: 15px; font-weight: 500;
+  color: var(--ink); cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 16px; transition: background 0.15s;
 }
+.faq-q:hover { background: var(--bg); }
+.faq-icon { font-size: 20px; color: var(--muted); flex-shrink: 0; transition: transform 0.2s; }
+.faq-a {
+  padding: 0 28px; max-height: 0; overflow: hidden;
+  font-size: 14px; color: var(--ink2); line-height: 1.75;
+  font-weight: 300; transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-a { max-height: 300px; padding: 0 28px 22px; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+/* CTA */
+.cta-wrap { padding: 0 56px 100px; max-width: 1160px; }
 .cta-box {
-  background: var(--ink);
-  color: #fff;
-  padding: 72px;
-  border-radius: 4px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 60px;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
+  background: var(--ink); color: #fff;
+  padding: 72px; border-radius: 4px;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 60px; align-items: center;
+  position: relative; overflow: hidden;
 }
 .cta-box::before {
-  content: '';
-  position: absolute;
-  top: -60px; right: -60px;
-  width: 320px; height: 320px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.06);
-  pointer-events: none;
-}
-.cta-box::after {
-  content: '';
-  position: absolute;
-  top: -20px; right: -20px;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.04);
-  pointer-events: none;
+  content:''; position:absolute; top:-60px; right:-60px;
+  width:320px; height:320px; border-radius:50%;
+  border: 1px solid rgba(255,255,255,0.06); pointer-events:none;
 }
 .cta-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
 .cta-h2 {
-  font-family: var(--serif);
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 14px;
+  font-family: var(--serif); font-size: clamp(28px,3.5vw,44px);
+  font-weight: 700; line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 14px;
 }
 .cta-sub { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.65; font-weight: 300; }
-.cta-right { flex-shrink: 0; text-align: center; }
 .price-block {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 4px;
-  padding: 32px 40px;
-  text-align: center;
-  min-width: 200px;
+  border-radius: 4px; padding: 32px 40px;
+  text-align: center; min-width: 200px;
 }
-.price-tag {
-  font-family: var(--serif);
-  font-size: 52px;
-  font-weight: 700;
-  color: #fff;
-  line-height: 1;
-  margin-bottom: 6px;
-}
+.price-tag { font-family: var(--serif); font-size: 52px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 6px; }
 .price-note { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 20px; font-weight: 300; }
 .btn-white {
-  display: block;
-  background: #fff;
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 13px 28px;
-  border-radius: 2px;
-  text-decoration: none;
-  text-align: center;
+  display: block; background: #fff; color: var(--ink);
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  padding: 13px 28px; border-radius: 2px;
+  text-decoration: none; text-align: center;
   transition: opacity 0.15s;
 }
 .btn-white:hover { opacity: 0.9; }
-.guarantee {
-  font-size: 11px;
-  color: rgba(255,255,255,0.35);
-  margin-top: 10px;
-  font-weight: 300;
-}
+.guarantee { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 10px; font-weight: 300; }
 
-/* ── MOBILE ── */
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--rule);
+  background: var(--paper);
+}
+.footer-main {
+  padding: 40px 56px 28px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: start;
+}
+.footer-brand { }
+.footer-logo {
+  font-family: var(--serif); font-size: 18px; font-weight: 700;
+  color: var(--ink); margin-bottom: 8px;
+}
+.footer-logo span { color: var(--red); font-style: italic; }
+.footer-tagline { font-size: 12px; color: var(--muted); font-weight: 300; margin-bottom: 12px; }
+.footer-powered {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--muted); font-weight: 300;
+}
+.footer-powered a {
+  color: var(--ink2); text-decoration: none; font-weight: 500;
+  transition: color 0.15s;
+}
+.footer-powered a:hover { color: var(--ink); }
+.footer-links {
+  display: flex; gap: 24px; align-items: center;
+  flex-wrap: wrap;
+}
+.footer-link {
+  font-size: 12px; color: var(--muted); text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-link:hover { color: var(--ink); }
+.footer-bottom {
+  padding: 16px 56px;
+  border-top: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-copy { font-size: 11px; color: var(--muted); font-weight: 300; }
+
+/* LEGAL MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(17,16,16,0.6);
+  backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  max-width: 620px; width: 100%;
+  max-height: 80vh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.modal-head {
+  padding: 24px 28px; border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-title { font-family: var(--serif); font-size: 20px; font-weight: 700; }
+.modal-close {
+  background: none; border: none; cursor: pointer;
+  font-size: 22px; color: var(--muted); padding: 4px;
+  transition: color 0.15s; line-height: 1;
+}
+.modal-close:hover { color: var(--ink); }
+.modal-body {
+  padding: 28px; overflow-y: auto;
+  font-size: 13px; color: var(--ink2); line-height: 1.8; font-weight: 300;
+}
+.modal-body h3 { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--ink); margin: 20px 0 8px; }
+.modal-body h3:first-child { margin-top: 0; }
+.modal-body p { margin-bottom: 12px; }
+
+/* MOBILE */
 @media (max-width: 768px) {
-  nav {
-    padding: 0 16px;
-    height: 52px;
-    gap: 8px;
-  }
+  nav { padding: 0 16px; height: 52px; }
   .nav-right { gap: 12px; }
   .nav-link { display: none; }
-  .nav-btn { padding: 8px 14px; font-size: 12px; white-space: nowrap; }
-
-  .hero {
-    grid-template-columns: 1fr;
-    padding: 80px 20px 40px;
-    gap: 32px;
-  }
+  .nav-btn { padding: 8px 14px; font-size: 12px; }
+  .hero { grid-template-columns: 1fr; padding: 80px 20px 40px; gap: 32px; }
   .hero-right { display: none; }
   .hero-proof { gap: 20px; flex-wrap: wrap; }
-  .proof-num { font-size: 24px; }
-
-  .stat-band {
-    padding: 20px 16px;
-    flex-direction: column;
-    gap: 0;
-    overflow: hidden;
-  }
-  .band-item {
-    padding: 16px 0;
-    border-right: none;
-    border-bottom: 1px solid var(--rule);
-  }
+  .stat-band { padding: 20px 16px; flex-direction: column; }
+  .band-item { padding: 16px 0; border-right: none; border-bottom: 1px solid var(--rule); }
   .band-item:last-child { border-bottom: none; }
-  .band-num { font-size: 28px; }
-
   .section { padding: 60px 20px; }
   .cta-wrap { padding: 0 20px 60px; }
-
   .calc-shell { grid-template-columns: 1fr; }
   .calc-in { padding: 24px 20px; border-right: none; border-bottom: 1px solid var(--rule); }
   .calc-out { padding: 24px 20px; }
-  .out-total { font-size: 40px; }
-
   .how-grid { grid-template-columns: 1fr 1fr; }
-
   .industry-grid { grid-template-columns: 1fr 1fr; }
-
-  .cta-box {
-    grid-template-columns: 1fr;
-    padding: 36px 24px;
-    gap: 28px;
-  }
-  .price-block { min-width: unset; }
-
-  footer { padding: 20px 16px; flex-direction: column; gap: 8px; text-align: center; }
+  .cta-box { grid-template-columns: 1fr; padding: 36px 24px; gap: 28px; }
+  .footer-main { grid-template-columns: 1fr; padding: 28px 20px 20px; }
+  .footer-bottom { padding: 16px 20px; flex-direction: column; gap: 8px; text-align: center; }
+  .faq-q { padding: 18px 20px; font-size: 14px; }
+  .faq-a { font-size: 13px; }
+  .faq-item.open .faq-a { padding: 0 20px 18px; }
 }
-
 @media (max-width: 420px) {
   .how-grid { grid-template-columns: 1fr; }
   .industry-grid { grid-template-columns: 1fr; }
-  .hero-proof { gap: 16px; }
 }
 
-/* ── FOOTER ── */
-footer {
-  border-top: 1px solid var(--rule);
-  padding: 28px 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--paper);
-}
-.footer-logo { font-family: var(--serif); font-size: 16px; font-weight: 700; }
-.footer-logo span { color: var(--red); font-style: italic; }
-.footer-right { font-size: 12px; color: var(--muted); }
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* ANIMATIONS */
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 .hero-kicker { animation: fadeUp 0.5s ease both; }
 .hero-h1     { animation: fadeUp 0.5s 0.08s ease both; }
 .hero-sub    { animation: fadeUp 0.5s 0.16s ease both; }
@@ -633,7 +460,7 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <div class="logo">Loss<span>Calc</span></div>
+  <a href="/" class="logo">Loss<span>Calc</span></a>
   <div class="nav-right">
     <a href="#how" class="nav-link">How it works</a>
     <a href="#industries" class="nav-link">Industries</a>
@@ -650,11 +477,7 @@ footer {
       <span class="eyebrow">AI Business Audit</span>
     </div>
     <h1 class="hero-h1">Find out what<br>your business<br>is <em>really</em> losing.</h1>
-    <p class="hero-sub">
-      Most businesses leak $3,000–$20,000/month through three fixable gaps.
-      Enter your numbers. Get a full audit report in 48 hours.
-      No consultants. No fluff. Just the numbers.
-    </p>
+    <p class="hero-sub">Most businesses leak $3,000–$20,000/month through three fixable gaps. Enter your numbers. Get a full audit report in 48 hours. No consultants. No fluff. Just the numbers.</p>
     <div class="hero-proof">
       <div class="proof-item">
         <div class="proof-num">$8.4k</div>
@@ -674,7 +497,6 @@ footer {
       <span class="cta-note">Free calculator · Full report $249 · 30-day guarantee</span>
     </div>
   </div>
-
   <div class="hero-right">
     <div class="mini-calc">
       <div class="mini-calc-header">
@@ -685,25 +507,19 @@ footer {
       </div>
       <div class="mini-calc-body">
         <div class="mc-label">Monthly revenue at risk</div>
-        <div class="mc-number" id="hero-total">$9,240</div>
+        <div class="mc-number">$9,240</div>
         <div class="mc-sub">= $110,880 / year</div>
-        <div class="mc-bars">
+        <div style="display:flex;flex-direction:column;gap:10px">
           <div>
-            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);margin-bottom:4px">
-              <span>Missed calls &amp; leads</span><span style="font-family:var(--mono)">$5,720</span>
-            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);margin-bottom:4px"><span>Missed calls &amp; leads</span><span style="font-family:var(--mono)">$5,720</span></div>
             <div class="mc-bar-track"><div class="mc-bar-fill" style="width:100%;background:#c0392b;height:4px;border-radius:2px"></div></div>
           </div>
           <div>
-            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);margin-bottom:4px">
-              <span>Manual admin cost</span><span style="font-family:var(--mono)">$2,640</span>
-            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);margin-bottom:4px"><span>Manual admin cost</span><span style="font-family:var(--mono)">$2,640</span></div>
             <div class="mc-bar-track"><div class="mc-bar-fill" style="width:46%;background:#b45309;height:4px;border-radius:2px"></div></div>
           </div>
           <div>
-            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);margin-bottom:4px">
-              <span>No follow-up</span><span style="font-family:var(--mono)">$880</span>
-            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);margin-bottom:4px"><span>No follow-up</span><span style="font-family:var(--mono)">$880</span></div>
             <div class="mc-bar-track"><div class="mc-bar-fill" style="width:15%;background:#d97706;height:4px;border-radius:2px"></div></div>
           </div>
         </div>
@@ -713,31 +529,17 @@ footer {
         <span style="font-family:var(--mono);font-size:13px;font-weight:500;color:var(--red)">34 / 100</span>
       </div>
     </div>
-    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px;font-weight:300">
-      Example: HVAC company, 12 leads/day, 38% missed
-    </p>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px;font-weight:300">Example: HVAC company, 12 leads/day, 38% missed</p>
   </div>
 </section>
 </div>
 
 <!-- STAT BAND -->
 <div class="stat-band">
-  <div class="band-item">
-    <div class="band-num">60–80%</div>
-    <div class="band-lbl">of callers never call back if unanswered</div>
-  </div>
-  <div class="band-item">
-    <div class="band-num">2.5h</div>
-    <div class="band-lbl">avg daily admin time per employee</div>
-  </div>
-  <div class="band-item">
-    <div class="band-num">15%</div>
-    <div class="band-lbl">of leads recovered with auto follow-up</div>
-  </div>
-  <div class="band-item">
-    <div class="band-num">6 wk</div>
-    <div class="band-lbl">avg payback period on AI automation</div>
-  </div>
+  <div class="band-item"><div class="band-num">60–80%</div><div class="band-lbl">of callers never call back if unanswered</div></div>
+  <div class="band-item"><div class="band-num">2.5h</div><div class="band-lbl">avg daily admin time per employee</div></div>
+  <div class="band-item"><div class="band-num">15%</div><div class="band-lbl">of leads recovered with auto follow-up</div></div>
+  <div class="band-item"><div class="band-num">6 wk</div><div class="band-lbl">avg payback period on AI automation</div></div>
 </div>
 
 <!-- CALCULATOR -->
@@ -747,9 +549,7 @@ footer {
     <h2 class="section-h2">How much are<br>you actually losing?</h2>
     <p class="section-sub">Adjust the sliders to your numbers. Results update instantly. Most owners are surprised by what they see.</p>
   </div>
-
   <div class="calc-shell">
-    <!-- inputs -->
     <div class="calc-in">
       <div class="biz-label">Business type</div>
       <select class="biz-sel" id="biz" onchange="applyDefaults()">
@@ -762,79 +562,25 @@ footer {
         <option value="dental">Dental / Medical practice</option>
         <option value="logistics">Logistics / Trucking</option>
       </select>
-
       <div class="group-head">Inbound flow</div>
-      <div class="sl-row">
-        <span class="sl-name">Calls / leads per day</span>
-        <input type="range" min="1" max="60" step="1" id="leads" oninput="recalc()">
-        <span class="sl-val" id="leads-v">—</span>
-      </div>
-      <div class="sl-row">
-        <span class="sl-name">% missed / unanswered</span>
-        <input type="range" min="5" max="70" step="5" id="missed" oninput="recalc()">
-        <span class="sl-val" id="missed-v">—</span>
-      </div>
-      <div class="sl-row">
-        <span class="sl-name">Average job / client value ($)</span>
-        <input type="range" min="100" max="12000" step="100" id="ticket" oninput="recalc()">
-        <span class="sl-val" id="ticket-v">—</span>
-      </div>
-      <div class="sl-row">
-        <span class="sl-name">% leads that convert</span>
-        <input type="range" min="5" max="65" step="5" id="conv" oninput="recalc()">
-        <span class="sl-val" id="conv-v">—</span>
-      </div>
-
+      <div class="sl-row"><span class="sl-name">Calls / leads per day</span><input type="range" min="1" max="60" step="1" id="leads" oninput="recalc()"><span class="sl-val" id="leads-v">—</span></div>
+      <div class="sl-row"><span class="sl-name">% missed / unanswered</span><input type="range" min="5" max="70" step="5" id="missed" oninput="recalc()"><span class="sl-val" id="missed-v">—</span></div>
+      <div class="sl-row"><span class="sl-name">Average job / client value ($)</span><input type="range" min="100" max="12000" step="100" id="ticket" oninput="recalc()"><span class="sl-val" id="ticket-v">—</span></div>
+      <div class="sl-row"><span class="sl-name">% leads that convert</span><input type="range" min="5" max="65" step="5" id="conv" oninput="recalc()"><span class="sl-val" id="conv-v">—</span></div>
       <div class="group-head">Operations</div>
-      <div class="sl-row">
-        <span class="sl-name">Staff doing manual admin</span>
-        <input type="range" min="1" max="20" step="1" id="staff" oninput="recalc()">
-        <span class="sl-val" id="staff-v">—</span>
-      </div>
-      <div class="sl-row">
-        <span class="sl-name">Hours of routine per person / day</span>
-        <input type="range" min="0.5" max="6" step="0.5" id="hrs" oninput="recalc()">
-        <span class="sl-val" id="hrs-v">—</span>
-      </div>
-      <div class="sl-row">
-        <span class="sl-name">Average hourly wage ($)</span>
-        <input type="range" min="15" max="120" step="5" id="rate" oninput="recalc()">
-        <span class="sl-val" id="rate-v">—</span>
-      </div>
+      <div class="sl-row"><span class="sl-name">Staff doing manual admin</span><input type="range" min="1" max="20" step="1" id="staff" oninput="recalc()"><span class="sl-val" id="staff-v">—</span></div>
+      <div class="sl-row"><span class="sl-name">Hours of routine per person / day</span><input type="range" min="0.5" max="6" step="0.5" id="hrs" oninput="recalc()"><span class="sl-val" id="hrs-v">—</span></div>
+      <div class="sl-row"><span class="sl-name">Average hourly wage ($)</span><input type="range" min="15" max="120" step="5" id="rate" oninput="recalc()"><span class="sl-val" id="rate-v">—</span></div>
     </div>
-
-    <!-- results -->
     <div class="calc-out">
       <div class="out-label">Monthly revenue at risk</div>
       <div class="out-total" id="out-total">$0</div>
       <div class="out-annual" id="out-annual">= $0 / year</div>
-
       <div class="out-rule"></div>
-
-      <div class="leak-row">
-        <div class="leak-top">
-          <span class="leak-name">Missed calls &amp; leads</span>
-          <span class="leak-amt" id="l1">$0/mo</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" id="b1" style="width:0%;background:var(--red)"></div></div>
-      </div>
-      <div class="leak-row">
-        <div class="leak-top">
-          <span class="leak-name">Manual admin cost</span>
-          <span class="leak-amt" id="l2">$0/mo</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" id="b2" style="width:0%;background:var(--amber)"></div></div>
-      </div>
-      <div class="leak-row">
-        <div class="leak-top">
-          <span class="leak-name">No follow-up on lost leads</span>
-          <span class="leak-amt" id="l3">$0/mo</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" id="b3" style="width:0%;background:#d97706"></div></div>
-      </div>
-
+      <div class="leak-row"><div class="leak-top"><span class="leak-name">Missed calls &amp; leads</span><span class="leak-amt" id="l1">$0/mo</span></div><div class="bar-track"><div class="bar-fill" id="b1" style="width:0%;background:var(--red)"></div></div></div>
+      <div class="leak-row"><div class="leak-top"><span class="leak-name">Manual admin cost</span><span class="leak-amt" id="l2">$0/mo</span></div><div class="bar-track"><div class="bar-fill" id="b2" style="width:0%;background:var(--amber)"></div></div></div>
+      <div class="leak-row"><div class="leak-top"><span class="leak-name">No follow-up on lost leads</span><span class="leak-amt" id="l3">$0/mo</span></div><div class="bar-track"><div class="bar-fill" id="b3" style="width:0%;background:#d97706"></div></div></div>
       <div class="out-rule" style="margin-top:20px"></div>
-
       <div class="verdict" id="verdict">
         <div class="verdict-head" id="v-head">Adjust the sliders above</div>
         <div class="verdict-body" id="v-body">Set your numbers and we'll show you exactly where your revenue is leaking — and what to fix first.</div>
@@ -852,42 +598,12 @@ footer {
     <p class="section-sub">Click any industry to load typical benchmarks into the calculator above.</p>
   </div>
   <div class="industry-grid">
-    <div class="ind-card" onclick="setIndustry('trades')">
-      <div class="ind-type">Trades</div>
-      <div class="ind-title">HVAC · Plumbing · Roofing</div>
-      <div class="ind-loss">$9–16k</div>
-      <div class="ind-sub">avg monthly loss · missed after-hours calls</div>
-    </div>
-    <div class="ind-card" onclick="setIndustry('medbeauty')">
-      <div class="ind-type">Health &amp; Beauty</div>
-      <div class="ind-title">Med spa · Salon · Clinic</div>
-      <div class="ind-loss">$5–12k</div>
-      <div class="ind-sub">avg monthly loss · rebooking &amp; no-shows</div>
-    </div>
-    <div class="ind-card" onclick="setIndustry('legal')">
-      <div class="ind-type">Professional Services</div>
-      <div class="ind-title">Legal · Accounting · CPA</div>
-      <div class="ind-loss">$12–28k</div>
-      <div class="ind-sub">avg monthly loss · high-value leads ignored</div>
-    </div>
-    <div class="ind-card" onclick="setIndustry('realestate')">
-      <div class="ind-type">Real Estate</div>
-      <div class="ind-title">Agencies · Property Mgmt</div>
-      <div class="ind-loss">$15–40k</div>
-      <div class="ind-sub">avg monthly loss · slow lead response</div>
-    </div>
-    <div class="ind-card" onclick="setIndustry('dental')">
-      <div class="ind-type">Healthcare</div>
-      <div class="ind-title">Dental · Medical Practice</div>
-      <div class="ind-loss">$8–18k</div>
-      <div class="ind-sub">avg monthly loss · scheduling gaps</div>
-    </div>
-    <div class="ind-card" onclick="setIndustry('agency')">
-      <div class="ind-type">Agency</div>
-      <div class="ind-title">Marketing · Consulting · Design</div>
-      <div class="ind-loss">$6–20k</div>
-      <div class="ind-sub">avg monthly loss · onboarding &amp; admin</div>
-    </div>
+    <div class="ind-card" onclick="setIndustry('trades')"><div class="ind-type">Trades</div><div class="ind-title">HVAC · Plumbing · Roofing</div><div class="ind-loss">$9–16k</div><div class="ind-sub">avg monthly loss · missed after-hours calls</div></div>
+    <div class="ind-card" onclick="setIndustry('medbeauty')"><div class="ind-type">Health &amp; Beauty</div><div class="ind-title">Med spa · Salon · Clinic</div><div class="ind-loss">$5–12k</div><div class="ind-sub">avg monthly loss · rebooking &amp; no-shows</div></div>
+    <div class="ind-card" onclick="setIndustry('legal')"><div class="ind-type">Professional Services</div><div class="ind-title">Legal · Accounting · CPA</div><div class="ind-loss">$12–28k</div><div class="ind-sub">avg monthly loss · high-value leads ignored</div></div>
+    <div class="ind-card" onclick="setIndustry('realestate')"><div class="ind-type">Real Estate</div><div class="ind-title">Agencies · Property Mgmt</div><div class="ind-loss">$15–40k</div><div class="ind-sub">avg monthly loss · slow lead response</div></div>
+    <div class="ind-card" onclick="setIndustry('dental')"><div class="ind-type">Healthcare</div><div class="ind-title">Dental · Medical Practice</div><div class="ind-loss">$8–18k</div><div class="ind-sub">avg monthly loss · scheduling gaps</div></div>
+    <div class="ind-card" onclick="setIndustry('agency')"><div class="ind-type">Agency</div><div class="ind-title">Marketing · Consulting · Design</div><div class="ind-loss">$6–20k</div><div class="ind-sub">avg monthly loss · onboarding &amp; admin</div></div>
   </div>
 </section>
 
@@ -898,25 +614,61 @@ footer {
     <h2 class="section-h2">From zero to<br>your report in 48h.</h2>
   </div>
   <div class="how-grid">
-    <div class="how-card">
-      <div class="how-n">01</div>
-      <div class="how-title">Use the calculator</div>
-      <div class="how-body">Enter your business numbers above. See your monthly loss estimate in real time — free, no signup.</div>
+    <div class="how-card"><div class="how-n">01</div><div class="how-title">Use the calculator</div><div class="how-body">Enter your business numbers above. See your monthly loss estimate in real time — free, no signup.</div></div>
+    <div class="how-card"><div class="how-n">02</div><div class="how-title">Fill intake form</div><div class="how-body">12 questions, 4 minutes. Triggers the full AI analysis automatically. Pay $249 via Stripe.</div></div>
+    <div class="how-card"><div class="how-n">03</div><div class="how-title">AI analysis runs</div><div class="how-body">Your inputs are benchmarked against industry data. Top 3 leaks identified, ROI calculated.</div></div>
+    <div class="how-card"><div class="how-n">04</div><div class="how-title">Report in your inbox</div><div class="how-body">4-page PDF with exact dollar figures, ranked fixes, and a 30-day implementation roadmap.</div></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="padding-top:0">
+  <div class="section-head">
+    <div class="eyebrow">FAQ</div>
+    <h2 class="section-h2">Common questions.</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>What exactly do I get for $249?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">A 4-page PDF report delivered to your inbox within 48 hours. It includes your exact monthly revenue loss broken down by category, the top 3 fixes ranked by ROI, estimated payback period for each fix, and a 30-day implementation roadmap you can act on immediately.</div>
     </div>
-    <div class="how-card">
-      <div class="how-n">02</div>
-      <div class="how-title">Fill intake form</div>
-      <div class="how-body">12 questions, 4 minutes. Triggers the full AI analysis automatically. Pay $249 via Stripe.</div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>How accurate is the calculator?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">The free calculator uses industry benchmarks to give you a directional estimate — it's designed to show you the scale of the problem, not the exact number. Your paid audit uses your specific answers from the intake form and benchmarks them against real data from your industry to produce a precise, personalized figure.</div>
     </div>
-    <div class="how-card">
-      <div class="how-n">03</div>
-      <div class="how-title">AI analysis runs</div>
-      <div class="how-body">Your inputs are benchmarked against industry data. Top 3 leaks identified, ROI calculated.</div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>Is this a subscription or a one-time payment?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">One-time payment of $249. No retainer, no monthly fees, no upsell calls. You pay once, you get your report. That's it.</div>
     </div>
-    <div class="how-card">
-      <div class="how-n">04</div>
-      <div class="how-title">Report in your inbox</div>
-      <div class="how-body">4-page PDF with exact dollar figures, ranked fixes, and a 30-day implementation roadmap.</div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>What if I'm not happy with the report?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">We offer a 30-day money-back guarantee. If the report doesn't identify at least one actionable revenue leak or you're not satisfied for any reason, email us and we'll refund your payment in full — no questions asked.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>How do you use my business data?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Your data is used solely to generate your report. We don't sell it, share it with third parties, or use it for advertising. All information is handled securely and deleted after report delivery. See our Privacy Policy for full details.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>What types of businesses does this work for?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">LossCalc is built for small and mid-sized businesses with 1–50 employees across trades, healthcare, professional services, real estate, retail, agencies, and logistics. If your business takes inbound calls or leads, has staff handling admin work, and follows up with prospects — there's almost certainly recoverable revenue we can find.</div>
     </div>
   </div>
 </section>
@@ -927,10 +679,7 @@ footer {
     <div>
       <div class="cta-eyebrow">Get started</div>
       <h2 class="cta-h2">Stop estimating.<br>Start knowing.</h2>
-      <p class="cta-sub" style="max-width:420px">
-        Your audit shows exactly where money is leaving your business and exactly how to stop it.
-        No long engagements, no retainers, no vague recommendations.
-      </p>
+      <p class="cta-sub" style="max-width:420px">Your audit shows exactly where money is leaving your business and exactly how to stop it. No long engagements, no retainers, no vague recommendations.</p>
     </div>
     <div class="price-block">
       <div class="price-tag">$249</div>
@@ -943,9 +692,82 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Loss<span>Calc</span></div>
-  <div class="footer-right">AI-powered business audit · losscalc.co</div>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="footer-logo">Loss<span>Calc</span></div>
+      <div class="footer-tagline">AI-powered business revenue audit · losscalc.co</div>
+      <div class="footer-powered">
+        Powered by <a href="https://kojilabs.app" target="_blank" rel="noopener">KojiLabs</a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#how" class="footer-link">How it works</a>
+      <a href="#faq" class="footer-link">FAQ</a>
+      <a href="#" class="footer-link" onclick="openModal('terms');return false;">Terms of Service</a>
+      <a href="#" class="footer-link" onclick="openModal('privacy');return false;">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 LossCalc. All rights reserved.</div>
+    <div class="footer-copy">hello@losscalc.co</div>
+  </div>
 </footer>
+
+<!-- TERMS MODAL -->
+<div class="modal-overlay" id="modal-terms">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Terms of Service</div>
+      <button class="modal-close" onclick="closeModal('terms')">×</button>
+    </div>
+    <div class="modal-body">
+      <p><em>Effective date: January 1, 2026</em></p>
+      <h3>1. Service Description</h3>
+      <p>LossCalc ("we", "us", "our") provides an AI-powered business revenue audit service. Upon payment of $249, you will receive a PDF report delivered to your email within 48 hours of completing the intake form.</p>
+      <h3>2. Payment</h3>
+      <p>Payment is processed securely via Stripe. By completing a purchase, you authorize a one-time charge of $249. No recurring charges will occur.</p>
+      <h3>3. Refund Policy</h3>
+      <p>We offer a 30-day money-back guarantee. If you are unsatisfied with your report for any reason, contact us at hello@losscalc.co within 30 days of purchase for a full refund. No questions asked.</p>
+      <h3>4. Disclaimer</h3>
+      <p>The report is based on the information you provide and industry benchmarks. It is for informational purposes only and does not constitute financial, legal, or professional advice. Actual results may vary. LossCalc is not responsible for business decisions made based on the report.</p>
+      <h3>5. Intellectual Property</h3>
+      <p>Your report is for your personal business use only. You may not resell, redistribute, or republish the content of your report without written permission.</p>
+      <h3>6. Limitation of Liability</h3>
+      <p>LossCalc's total liability to you shall not exceed the amount paid for the service ($249). We are not liable for indirect, incidental, or consequential damages.</p>
+      <h3>7. Contact</h3>
+      <p>For questions about these terms, contact us at hello@losscalc.co.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PRIVACY MODAL -->
+<div class="modal-overlay" id="modal-privacy">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Privacy Policy</div>
+      <button class="modal-close" onclick="closeModal('privacy')">×</button>
+    </div>
+    <div class="modal-body">
+      <p><em>Effective date: January 1, 2026</em></p>
+      <h3>1. Information We Collect</h3>
+      <p>We collect the information you provide in our intake form, including your business name, location, email address, and operational data (lead volume, revenue estimates, staffing). We also collect payment information through Stripe (we do not store card details directly).</p>
+      <h3>2. How We Use Your Information</h3>
+      <p>Your information is used exclusively to generate and deliver your audit report. We do not use it for marketing, advertising, or profiling purposes beyond your requested service.</p>
+      <h3>3. Data Sharing</h3>
+      <p>We do not sell, rent, or share your personal information with third parties, except as necessary to deliver the service (e.g., email delivery via Mailgun) or as required by law. Payment processing is handled by Stripe under their privacy policy.</p>
+      <h3>4. Data Retention</h3>
+      <p>Your intake form data is retained for up to 90 days after report delivery, then deleted. Email address may be retained for up to 1 year for support purposes.</p>
+      <h3>5. Security</h3>
+      <p>We use industry-standard security measures to protect your data. All data is transmitted over HTTPS. Payment data is handled exclusively by Stripe and never stored on our servers.</p>
+      <h3>6. Your Rights</h3>
+      <p>You have the right to request access to, correction of, or deletion of your personal data at any time. Contact us at hello@losscalc.co to exercise these rights.</p>
+      <h3>7. Cookies</h3>
+      <p>Our website does not use tracking cookies or third-party analytics. We do not serve ads.</p>
+      <h3>8. Contact</h3>
+      <p>For privacy questions, contact us at hello@losscalc.co.</p>
+    </div>
+  </div>
+</div>
 
 <script>
 const BIZ = {
@@ -959,77 +781,100 @@ const BIZ = {
   logistics:  { leads: 8, missed:35, ticket:2200, conv:20, staff:4, hrs:2.5, rate:26 },
 };
 
-function set(id, v) { document.getElementById(id).value = v; }
+function set(id,v){ document.getElementById(id).value=v; }
 
 function applyDefaults() {
   const k = document.getElementById('biz').value;
-  const d = BIZ[k] || BIZ.trades;
-  set('leads', d.leads); set('missed', d.missed); set('ticket', d.ticket);
-  set('conv', d.conv); set('staff', d.staff); set('hrs', d.hrs); set('rate', d.rate);
+  const d = BIZ[k]||BIZ.trades;
+  set('leads',d.leads); set('missed',d.missed); set('ticket',d.ticket);
+  set('conv',d.conv); set('staff',d.staff); set('hrs',d.hrs); set('rate',d.rate);
   recalc();
 }
 
 function setIndustry(k) {
   document.getElementById('biz').value = k;
   applyDefaults();
-  document.getElementById('calculator').scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('calculator').scrollIntoView({ behavior:'smooth' });
 }
 
 function fmt(n) {
-  if (n >= 1000) return '$' + (n/1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/,'') + 'k';
-  return '$' + Math.round(n);
+  if (n>=1000) return '$'+(n/1000).toFixed(n>=10000?0:1).replace(/\.0$/,'')+'k';
+  return '$'+Math.round(n);
 }
-function fmtMo(n) { return fmt(n) + '/mo'; }
+function fmtMo(n){ return fmt(n)+'/mo'; }
 
 function recalc() {
   const leads  = +document.getElementById('leads').value;
-  const missed = +document.getElementById('missed').value / 100;
+  const missed = +document.getElementById('missed').value/100;
   const ticket = +document.getElementById('ticket').value;
-  const conv   = +document.getElementById('conv').value / 100;
+  const conv   = +document.getElementById('conv').value/100;
   const staff  = +document.getElementById('staff').value;
   const hrs    = +document.getElementById('hrs').value;
   const rate   = +document.getElementById('rate').value;
   const days   = 22;
 
   document.getElementById('leads-v').textContent  = leads;
-  document.getElementById('missed-v').textContent = Math.round(missed*100) + '%';
-  document.getElementById('ticket-v').textContent = '$' + ticket.toLocaleString();
-  document.getElementById('conv-v').textContent   = Math.round(conv*100) + '%';
+  document.getElementById('missed-v').textContent = Math.round(missed*100)+'%';
+  document.getElementById('ticket-v').textContent = '$'+ticket.toLocaleString();
+  document.getElementById('conv-v').textContent   = Math.round(conv*100)+'%';
   document.getElementById('staff-v').textContent  = staff;
-  document.getElementById('hrs-v').textContent    = hrs + 'h';
-  document.getElementById('rate-v').textContent   = '$' + rate;
+  document.getElementById('hrs-v').textContent    = hrs+'h';
+  document.getElementById('rate-v').textContent   = '$'+rate;
 
-  const lostRev  = leads * missed * days * conv * ticket;
-  const routine  = staff * hrs * rate * days;
-  const followup = lostRev * 0.15;
-  const total    = lostRev + routine + followup;
+  const lostRev  = leads*missed*days*conv*ticket;
+  const routine  = staff*hrs*rate*days;
+  const followup = lostRev*0.15;
+  const total    = lostRev+routine+followup;
 
-  document.getElementById('out-total').textContent  = fmt(total) + '/mo';
-  document.getElementById('out-annual').textContent = '= ' + fmt(total*12) + ' / year';
-
+  document.getElementById('out-total').textContent  = fmt(total)+'/mo';
+  document.getElementById('out-annual').textContent = '= '+fmt(total*12)+' / year';
   document.getElementById('l1').textContent = fmtMo(lostRev);
   document.getElementById('l2').textContent = fmtMo(routine);
   document.getElementById('l3').textContent = fmtMo(followup);
 
-  const mx = Math.max(lostRev, routine, followup) || 1;
+  const mx = Math.max(lostRev,routine,followup)||1;
   document.getElementById('b1').style.width = Math.round(lostRev/mx*100)+'%';
   document.getElementById('b2').style.width = Math.round(routine/mx*100)+'%';
   document.getElementById('b3').style.width = Math.round(followup/mx*100)+'%';
 
-  let head, body;
-  if (total < 3000) {
-    head = 'Low exposure — targeted fixes';
-    body = `You're losing ~${fmt(total)}/mo. One or two automation fixes likely recover most of it within 4–6 weeks.`;
-  } else if (total < 12000) {
-    head = 'Significant exposure — strong ROI case';
-    body = `${fmt(total)}/mo in recoverable revenue. A focused AI audit shows you exactly which fix delivers the fastest return.`;
+  let head,body;
+  if (total<3000) {
+    head='Low exposure — targeted fixes';
+    body=`You're losing ~${fmt(total)}/mo. One or two automation fixes likely recover most of it within 4–6 weeks.`;
+  } else if (total<12000) {
+    head='Significant exposure — strong ROI case';
+    body=`${fmt(total)}/mo in recoverable revenue. A focused AI audit shows you exactly which fix delivers the fastest return.`;
   } else {
-    head = 'High exposure — this is your top priority';
-    body = `${fmt(total)}/mo is a major operational gap. At this scale the ROI on fixing it is obvious from week one.`;
+    head='High exposure — this is your top priority';
+    body=`${fmt(total)}/mo is a major operational gap. At this scale the ROI on fixing it is obvious from week one.`;
   }
   document.getElementById('v-head').textContent = head;
   document.getElementById('v-body').textContent = body;
 }
+
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+function openModal(type) {
+  document.getElementById('modal-'+type).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(type) {
+  document.getElementById('modal-'+type).classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', function(e) {
+    if (e.target === el) {
+      el.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+});
 
 applyDefaults();
 </script>
