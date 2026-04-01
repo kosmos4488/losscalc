@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LossCalc — Get Your Audit Report</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23111010'/><text x='4' y='24' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23c0392b'>L</text><text x='14' y='24' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23ffffff'>C</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -42,7 +43,15 @@ nav {
   height: 56px;
   flex-shrink: 0;
 }
-.logo { font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--ink); }
+.logo {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  transition: opacity .15s;
+}
+.logo:hover { opacity: 0.7; }
 .logo em { color: var(--red); font-style: italic; }
 .nav-right { font-size: 12px; color: var(--muted); }
 
@@ -115,7 +124,7 @@ nav {
 .tile .tile-sub { font-size: 10px; color: var(--muted); margin-top: 3px; }
 .tile.sel .tile-sub { color: rgba(255,255,255,0.55); }
 
-/* slider (kept for numeric fields only) */
+/* slider */
 .sl-val-display {
   font-family: var(--mono);
   font-size: 44px;
@@ -203,7 +212,6 @@ input[type=range] { width: 100%; accent-color: var(--ink); margin-bottom: 6px; }
 .bar-fill  { height: 100%; border-radius: 2px; transition: width .4s ease; }
 
 /* SUMMARY PAGE */
-.summary-wrap { }
 .sum-hero {
   background: var(--ink);
   color: #fff;
@@ -240,12 +248,11 @@ input[type=range] { width: 100%; accent-color: var(--ink); margin-bottom: 6px; }
 <body>
 
 <nav>
-  <div class="logo">Loss<em>Calc</em></div>
+  <a href="/" class="logo">Loss<em>Calc</em></a>
   <div class="nav-right">Business revenue audit · $249</div>
 </nav>
 
 <div class="page">
-  <!-- FORM -->
   <div class="form-panel">
     <div class="progress-wrap">
       <div class="progress-top">
@@ -257,14 +264,12 @@ input[type=range] { width: 100%; accent-color: var(--ink); margin-bottom: 6px; }
     <div class="q-wrap" id="q-area"></div>
   </div>
 
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sidebar-card">
       <div class="sc-label">Monthly revenue at risk</div>
       <div class="sc-val" id="sb-total">—</div>
       <div class="sc-sub" id="sb-annual"></div>
     </div>
-
     <div class="sidebar-card">
       <div class="sc-label">Where it's leaking</div>
       <div class="leak-item">
@@ -280,7 +285,6 @@ input[type=range] { width: 100%; accent-color: var(--ink); margin-bottom: 6px; }
         <div class="bar-track"><div class="bar-fill" id="sb-b3" style="width:0%;background:#d97706"></div></div>
       </div>
     </div>
-
     <div class="sidebar-card">
       <div class="sc-label">What you get</div>
       <div class="sc-body">
@@ -295,7 +299,6 @@ input[type=range] { width: 100%; accent-color: var(--ink); margin-bottom: 6px; }
 const ans = {};
 let step = 0;
 
-// ── Mapping qualitative answers → numbers for calc ──
 const MISSED_MAP  = { never:5, sometimes:20, often:40, always:65 };
 const TICKET_MAP  = { under200:150, s200_500:350, s500_2k:1200, s2k_5k:3500, over5k:8000 };
 const CONV_MAP    = { low:10, medium:25, high:45, very_high:65 };
@@ -511,21 +514,18 @@ function render() {
       </button>`;
     });
     html += `</div>`;
-
   } else if (s.type === 'slider') {
     const val = ans[s.id] ?? LEADS_DEFAULT[ans.biz || 'trades'] ?? 10;
     ans[s.id] = val;
     html += `<div class="sl-val-display"><span id="sl-u">${s.unit}</span><span id="sl-n">${val}</span><span class="sl-unit">${s.suffix}</span></div>
       <input type="range" min="${s.min}" max="${s.max}" step="${s.step}" value="${val}" oninput="updSl('${s.id}','${s.unit}','${s.suffix}',+this.value)">
       <div class="sl-hints"><span>${s.unit}${s.min}${s.suffix}</span><span>${s.unit}${s.max}${s.suffix}</span></div>`;
-
   } else if (s.type === 'text') {
     html += `<input class="text-input" type="${s.inputType||'text'}" placeholder="${s.placeholder}" value="${ans[s.id]||''}"
       oninput="ans['${s.id}']=this.value;updateSidebar()"
       onkeydown="if(event.key==='Enter')next()">`;
   }
 
-  // nav
   const backVis  = step > 0 ? '' : 'visibility:hidden';
   const skipVis  = s.skip ? '' : 'visibility:hidden';
   html += `<div class="btn-row">
@@ -542,9 +542,7 @@ function render() {
   updateSidebar();
 }
 
-function needsAnswer(s) {
-  return !s.skip && s.type === 'tiles';
-}
+function needsAnswer(s) { return !s.skip && s.type === 'tiles'; }
 
 function pickTile(id, val, el) {
   ans[id] = val;
@@ -552,7 +550,6 @@ function pickTile(id, val, el) {
   el.classList.add('sel');
   document.getElementById('btn-next') && (document.getElementById('btn-next').disabled = false);
   updateSidebar();
-  // auto-advance on tile selection after brief pause
   setTimeout(() => next(), 300);
 }
 
@@ -593,7 +590,7 @@ function showSummary() {
       <div class="sum-cell"><div class="sum-cell-key">Missed call loss</div><div class="sum-cell-val" style="color:var(--red)">${fdmo(L.lostRev)}</div></div>
       <div class="sum-cell"><div class="sum-cell-key">Admin cost</div><div class="sum-cell-val" style="color:var(--red)">${fdmo(L.routine)}</div></div>
     </div>
-    <button class="pay-btn" onclick="window.location.href='https://buy.stripe.com/3cI4gze8I0ID5rd0l6dwc03'" >
+    <button class="pay-btn" onclick="window.location.href='https://buy.stripe.com/3cI4gze8I0ID5rd0l6dwc03'">
       <span>Get my full audit report</span>
       <span class="pay-right"><span class="pay-price">$249</span><div class="pay-note">48h delivery</div></span>
     </button>
